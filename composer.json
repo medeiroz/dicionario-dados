@@ -1,0 +1,19 @@
+{
+    "name": "fmedeiros/dicionario-dados",
+    "description": "Gerar dicionario de dados mysql",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Flavio Medeiros",
+            "email": "smedeiros.flavio@gmail.com"
+        }
+    ],
+    "require": {
+        "wanfeiyy/dd": "^1.0"
+    },
+    "require-dev": {
+    },
+    "autoload": {
+        "psr-4": {"": "App/"}
+    }
+}

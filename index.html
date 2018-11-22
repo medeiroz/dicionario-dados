@@ -2,18 +2,51 @@
 <html>
 <head>
 	<title>Dicionário de dados</title>
-	
-	<div class="container">
-		
 
+	<style>
 
-	</div>
+		*,table,td {
+			font-family: Arial;
+			color: #4D4D4D;
+			font-size: 10pt;
+		}
+
+		.text-center { text-align:center; }
+		.text-left { text-align:left; }
+		.text-right { text-align:right; }
+
+		.text-capitalize {
+			text-transform: capitalize;
+		}
+
+		.title { font-weight: bold; }
+
+		.table {
+			width: 100%;
+			border-collapse: collapse;
+		}
+
+		.table td {
+			border: 1px solid black;
+			padding: 3px;
+		}
+
+		.table .title {
+			background-color: #BEBEBE;
+		}
+
+	</style>
 
 </head>
 <body>
 
+	<div class="container">
 
-	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+	</div>
+
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 	<script type="text/javascript">
 
 		String.prototype.replaceAll = function(search, replacement) {
@@ -23,29 +56,27 @@
 
 
 		var template = `
-<center><b>Tabela @{{table.id}} - Descrição da tabela @{{table.name}}</b></center>
+<p class="text-center title">Tabela @{{table.id}} - Descrição da tabela @{{table.name}}</p>
 
-<br/>
-
-<table>
+<table class="table">
 	<tr>
-		<td colspan="2" class="titulo">Entidade/Tabela</td>
-		<td colspan="4" class="descricao">@{{table.name}}</td>
+		<td colspan="2" class="title text-left">Entidade/Tabela</td>
+		<td colspan="4" class="descricao text-left">@{{table.name}}</td>
 	</tr>
 	<tr>
-		<td colspan="2" class="titulo">Descrição</td>
-		<td colspan="4" class="descricao">@{{table.comment}}</td>
+		<td colspan="2" class="title text-left">Descrição</td>
+		<td colspan="4" class="descricao text-left">@{{table.comment}}</td>
 	</tr>
 	<tr>
-		<td colspan="6" class="titulo">Definição dos atributos/campos</td>
+		<td colspan="6" class="title text-center">Definição dos atributos/campos</td>
 	</tr>
 	<tr>
-		<td class="titulo">Nome</td>
-		<td class="titulo">Tipo</td>
-		<td class="titulo">Tamanho</td>
-		<td class="titulo">Nulidade</td>
-		<td class="titulo">Chave</td>
-		<td class="titulo">Descrição</td>
+		<td class="title text-center">Nome</td>
+		<td class="title text-center">Tipo</td>
+		<td class="title text-center">Tamanho</td>
+		<td class="title text-center">Permite Null?</td>
+		<td class="title text-center">Chave</td>
+		<td class="title text-center">Descrição</td>
 	</tr>
 	@{{registros}}
 </table>
@@ -55,20 +86,19 @@
 
 		var template_line = `
 <tr>
-	<td class="descricao">@{{column.name}}</td>
-	<td class="descricao">@{{column.type}}</td>
-	<td class="descricao">@{{column.size}}</td>
-	<td class="descricao">@{{column.nullable}}</td>
-	<td class="descricao">@{{column.key}}</td>
-	<td class="descricao">@{{column.comment}}</td>
+	<td class="descricao text-left">@{{column.name}}</td>
+	<td class="descricao text-center text-capitalize">@{{column.type}}</td>
+	<td class="descricao text-center">@{{column.size}}</td>
+	<td class="descricao text-center">@{{column.nullable}}</td>
+	<td class="descricao text-center">@{{column.key}}</td>
+	<td class="descricao text-left">@{{column.comment}}</td>
 </tr>
-
 		`;
 
 		$(document).ready(function(){
 
 			$.ajax({
-				url: "exemplo.php",
+				url: "endpoint.php",
 				method: "GET",
 				dataType: "json",
 				success: function(data){
@@ -76,29 +106,27 @@
 					var aux_full_html = "";
 
 					$.each(data, function(index, value){
-
-
 						
 						var aux_register_html = template;
 						var aux_all_lines_html = "";
 
-						aux_register_html = aux_register_html.replaceAll("@{{table.id}}", value.id);
-						aux_register_html = aux_register_html.replaceAll("@{{table.name}}", value.table);
-						aux_register_html = aux_register_html.replaceAll("@{{table.comment}}", value.comment);
+						aux_register_html = aux_register_html
+							.replaceAll("@{{table.id}}", value.id)
+							.replaceAll("@{{table.name}}", value.table)
+							.replaceAll("@{{table.comment}}", value.comment);
 						
 
-						$.each(value, function(_index,_value){
-
-							console.log(_value);
+						$.each(value.columns, function(_index,_value){
 
 							var aux_line_html = template_line;
 
-							aux_line_html = aux_line_html.replaceAll("@{{column.name}}",_value.description);
-							aux_line_html = aux_line_html.replaceAll("@{{column.type}}",_value.type);
-							aux_line_html = aux_line_html.replaceAll("@{{column.size}}",_value.size);
-							aux_line_html = aux_line_html.replaceAll("@{{column.nullable}}",_value.nullable);
-							aux_line_html = aux_line_html.replaceAll("@{{column.key}}",_value.key);
-							aux_line_html = aux_line_html.replaceAll("@{{column.comment}}",_value.comment);
+							aux_line_html = aux_line_html
+								.replaceAll("@{{column.name}}",_value.description)
+								.replaceAll("@{{column.type}}",_value.type)
+								.replaceAll("@{{column.size}}",_value.size)
+								.replaceAll("@{{column.nullable}}", _value.nullable)
+								.replaceAll("@{{column.key}}", _value.key)
+								.replaceAll("@{{column.comment}}",_value.comment);
 
 							aux_all_lines_html += aux_line_html;
 
@@ -108,10 +136,8 @@
 
 					});
 
-
-
-
 					$(".container").html(aux_full_html);
+
 				},
 				error: function(request, data){
 					console.log(request, data);
