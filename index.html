@@ -3,150 +3,17 @@
 <head>
 	<title>Dicionário de dados</title>
 
-	<style>
-
-		*,table,td {
-			font-family: Arial;
-			color: #4D4D4D;
-			font-size: 10pt;
-		}
-
-		.text-center { text-align:center; }
-		.text-left { text-align:left; }
-		.text-right { text-align:right; }
-
-		.text-capitalize {
-			text-transform: capitalize;
-		}
-
-		.title { font-weight: bold; }
-
-		.table {
-			width: 100%;
-			border-collapse: collapse;
-		}
-
-		.table td {
-			border: 1px solid black;
-			padding: 3px;
-		}
-
-		.table .title {
-			background-color: #BEBEBE;
-		}
-
-	</style>
+	<link rel="stylesheet" type="text/css" href="assets/styles.css">
 
 </head>
 <body>
 
-	<div class="container">
+	<div id="container">
 
 	</div>
 
-
-
-<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-	<script type="text/javascript">
-
-		String.prototype.replaceAll = function(search, replacement) {
-		    var target = this;
-		    return target.replace(new RegExp(search, 'g'), replacement);
-		};
-
-
-		var template = `
-<p class="text-center title">Tabela @{{table.id}} - Descrição da tabela @{{table.name}}</p>
-
-<table class="table">
-	<tr>
-		<td colspan="2" class="title text-left">Entidade/Tabela</td>
-		<td colspan="4" class="descricao text-left">@{{table.name}}</td>
-	</tr>
-	<tr>
-		<td colspan="2" class="title text-left">Descrição</td>
-		<td colspan="4" class="descricao text-left">@{{table.comment}}</td>
-	</tr>
-	<tr>
-		<td colspan="6" class="title text-center">Definição dos atributos/campos</td>
-	</tr>
-	<tr>
-		<td class="title text-center">Nome</td>
-		<td class="title text-center">Tipo</td>
-		<td class="title text-center">Tamanho</td>
-		<td class="title text-center">Permite Null?</td>
-		<td class="title text-center">Chave</td>
-		<td class="title text-center">Descrição</td>
-	</tr>
-	@{{registros}}
-</table>
-
-<br/><br/>
-		`;
-
-		var template_line = `
-<tr>
-	<td class="descricao text-left">@{{column.name}}</td>
-	<td class="descricao text-center text-capitalize">@{{column.type}}</td>
-	<td class="descricao text-center">@{{column.size}}</td>
-	<td class="descricao text-center">@{{column.nullable}}</td>
-	<td class="descricao text-center">@{{column.key}}</td>
-	<td class="descricao text-left">@{{column.comment}}</td>
-</tr>
-		`;
-
-		$(document).ready(function(){
-
-			$.ajax({
-				url: "endpoint.php",
-				method: "GET",
-				dataType: "json",
-				success: function(data){
-
-					var aux_full_html = "";
-
-					$.each(data, function(index, value){
-						
-						var aux_register_html = template;
-						var aux_all_lines_html = "";
-
-						aux_register_html = aux_register_html
-							.replaceAll("@{{table.id}}", value.id)
-							.replaceAll("@{{table.name}}", value.table)
-							.replaceAll("@{{table.comment}}", value.comment);
-						
-
-						$.each(value.columns, function(_index,_value){
-
-							var aux_line_html = template_line;
-
-							aux_line_html = aux_line_html
-								.replaceAll("@{{column.name}}",_value.description)
-								.replaceAll("@{{column.type}}",_value.type)
-								.replaceAll("@{{column.size}}",_value.size)
-								.replaceAll("@{{column.nullable}}", _value.nullable)
-								.replaceAll("@{{column.key}}", _value.key)
-								.replaceAll("@{{column.comment}}",_value.comment);
-
-							aux_all_lines_html += aux_line_html;
-
-						});
-
-						aux_full_html += aux_register_html.replaceAll("@{{registros}}", aux_all_lines_html);
-
-					});
-
-					$(".container").html(aux_full_html);
-
-				},
-				error: function(request, data){
-					console.log(request, data);
-				}
-			});
-
-		});
-
-	</script>
+	<script src="assets/plugins/axios.min.js"></script>
+	<script src="assets/scripts.js"></script>
 </body>
 </html>
 

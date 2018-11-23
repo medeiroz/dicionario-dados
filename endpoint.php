@@ -12,7 +12,7 @@ require_once "vendor/autoload.php";
  *  auto_increment
  */
 
-$h = new H("atena");
+$h = new H("localhost", "atena", "root", "secret");
 
 $aux_array = $h->getTables();
 

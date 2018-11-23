@@ -1,0 +1,29 @@
+*,table,td {
+    font-family: Arial;
+    color: #4D4D4D;
+    font-size: 10pt;
+}
+
+.text-center { text-align:center; }
+.text-left { text-align:left; }
+.text-right { text-align:right; }
+
+.text-capitalize {
+    text-transform: capitalize;
+}
+
+.title { font-weight: bold; }
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table td {
+    border: 1px solid black;
+    padding: 3px;
+}
+
+.table .title {
+    background-color: #BEBEBE;
+}

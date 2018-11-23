@@ -3,13 +3,25 @@
 
 class H {
 
-public $mysqli;
-public $database;
+    private $mysqli;
+    private $database;
+    private $host;
+    private $user;
+    private $password;
 
 
-    public function __construct($database)
-    {
+    public function __construct(
+        $host,
+        $database,
+        $user,
+        $password
+    ){
+
         $this->database = $database;
+        $this->host = $host;
+        $this->user = $user;
+        $this->password = $password;
+
         $this->open_connection();
     }
 
@@ -18,7 +30,7 @@ public $database;
 
         if(!$this->mysqli){
 
-            $this->mysqli = new mysqli( 'localhost', 'root', 'secret', $this->database);
+            $this->mysqli = new mysqli( $this->host, $this->user, $this->password, $this->database);
              $this->mysqli->set_charset("utf8");
         }
 
@@ -132,7 +144,7 @@ public $database;
                 'comment' => $value['comment'],
             ];
 
-            $retorno[$value['column']] = $aux_column;
+            $retorno[] = $aux_column;
 
         }
 
