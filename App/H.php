@@ -73,22 +73,19 @@ class H {
 
         ";
 
-        $aux = $this->query($SQL);
+        $tables = $this->query($SQL);
 
-        $retorno = [];
+        return array_map(function($table) {
+            
+            $table = array_change_key_case($table, CASE_LOWER);
 
-        for ($i = 0; $i < count($aux); $i++) {
-
-            $retorno[] = [
-                'id' => $i+1,
-                'table' => $aux[$i]['table_name'],
-                'comment' => $aux[$i]['table_comment'],
-                'columns' => $this->getColumns($aux[$i]['table_name']),
+            return [
+                'table' => $table['table_name'],
+                'comment' => $table['table_comment'],
+                'columns' => $this->getColumns($table['table_name']),
             ];
 
-        }
-
-        return $retorno;
+        }, $tables);
     }
 
 

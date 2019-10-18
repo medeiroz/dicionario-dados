@@ -12,7 +12,7 @@ require_once "vendor/autoload.php";
  *  auto_increment
  */
 
-$h = new H("localhost", "atena", "root", "secret");
+$h = new H("127.0.0.1", "database", "root", "root");
 
 $aux_array = $h->getTables();
 

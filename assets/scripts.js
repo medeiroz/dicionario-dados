@@ -53,13 +53,13 @@ axios.get('endpoint.php', {}).then(response => {
 
     let aux_full_html = ""
 
-    response.data.forEach(function(value){
+    response.data.forEach(function(value, index){
 
         let aux_register_html = template;
         let aux_all_lines_html = ""
 
         aux_register_html = aux_register_html
-            .replaceAll("@{{table.id}}", value.id)
+            .replaceAll("@{{table.id}}", index + 1)
             .replaceAll("@{{table.name}}", value.table)
             .replaceAll("@{{table.comment}}", value.comment)
 
